@@ -19,16 +19,27 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+//import { ref } from 'vue'
 import CreateTodoForm from '../components/CreateTodoForm.vue'
-import {db} from '../firebase/config'
-import {collection, getDocs} from 'firebase/firestore'
+import getCollection from '../composables/getCollection'
 
 export default {
   name: 'Home',
   components: { CreateTodoForm },
   setup() {
-    const todos = ref([])
+    const { documents: todos } = getCollection('todos')
+
+    console.log(todos)
+
+    return { todos }
+  }
+}
+</script>
+
+// import {db} from '../firebase/config'
+// import {collection, getDocs} from 'firebase/firestore'
+
+const todos = ref([])
 
     const colRef = collection(db, 'todos')
 
@@ -39,14 +50,7 @@ export default {
           docs.push({...doc.data(), id: doc.id})
         })
         todos.value = docs
-
-        //console.log(docs)
     })
-
-    return { todos }
-  }
-}
-</script>
 
 // const todos = ref([
 //       { todo: 'First Todo', completed: true, id: '1' },
