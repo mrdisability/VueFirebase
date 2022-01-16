@@ -2,15 +2,21 @@
   <div class="container">
     <ul class="list-group">
       <li class="list-group-item" v-for="todo in todos" :key="todo.id">
-        <div class="details">
-          <h4>{{ todo.todo }}</h4>
-          <p>Completed: {{ todo.completed }}</p>
-        </div>
-        <div class="icon" v-if="todo.completed" style="color: green">
-          <span class="material-icons">done</span>
-        </div>
-        <div class="icon" v-if="!todo.completed" style="color: red">
-          <span class="material-icons">pending</span>
+        <div>
+
+          <button v-if="!todo.completed" type="button" 
+            style="float: right" class="btn btn-primary">Complete</button>
+
+          <h4 style="display: inline">
+            {{ todo.todo }}
+          </h4>
+
+          <div class="icon" v-if="todo.completed" style="color: green; display: inline;">
+            <span class="material-icons">done</span>
+          </div>
+          <div class="icon" v-if="!todo.completed" style="color: red; display: inline;">
+            <span class="material-icons">pending</span>
+          </div>
         </div>
       </li>
     </ul>
@@ -29,7 +35,7 @@ export default {
   setup() {
     const { documents: todos } = getCollection('todos')
 
-    console.log(todos)
+    //console.log(todos)
 
     return { todos }
   }
