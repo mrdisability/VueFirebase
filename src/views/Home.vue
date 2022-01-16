@@ -1,13 +1,13 @@
 <template>
   <div class="container">
     <ul class="list-group">
-      <li class="list-group-item" v-for="todo in todos" :key="todo.id">
+      <li class="list-group-item" style="cursor: pointer" v-for="todo in todos" :key="todo.id">
         <div>
 
           <button v-if="!todo.completed" type="button" 
             style="float: right" class="btn btn-primary">Complete</button>
 
-          <h4 style="display: inline">
+          <h4 style="display: inline" @click="handleDelete(todo)">
             {{ todo.todo }}
           </h4>
 
@@ -28,6 +28,8 @@
 //import { ref } from 'vue'
 import CreateTodoForm from '../components/CreateTodoForm.vue'
 import getCollection from '../composables/getCollection'
+import { db } from '../firebase/config'
+import { doc, deleteDoc } from 'firebase/firestore'
 
 export default {
   name: 'Home',
@@ -37,7 +39,16 @@ export default {
 
     //console.log(todos)
 
-    return { todos }
+    // delete docs
+    const handleDelete = (todo) => {
+      console.log(todo)
+      if (window.confirm('Delete this todo?')) {
+        const docRef = doc(db, 'todos', todo.id)
+        deleteDoc(docRef)
+      }
+    }
+
+    return { todos, handleDelete }
   }
 }
 </script>
